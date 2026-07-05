@@ -1,0 +1,4 @@
+mcp[cli]==1.28.1
+birdnetlib==0.18.1
+requests==2.33.1
+httpx==0.28.1

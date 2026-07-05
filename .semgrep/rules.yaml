@@ -1,0 +1,29 @@
+rules:
+  - id: detect-google-api-key
+    message: "Detected a hardcoded Google API key (starts with AIzaSy)."
+    severity: ERROR
+    languages:
+      - python
+      - javascript
+      - typescript
+    patterns:
+      - pattern-regex: "AIzaSy[A-Za-z0-9_\\-]{33}"
+
+  - id: detect-hardcoded-key-or-token
+    message: "Detected a hardcoded generic high-entropy string assigned to a variable named like *_key or *_token."
+    severity: ERROR
+    languages:
+      - python
+      - javascript
+      - typescript
+    patterns:
+      - pattern-either:
+          - pattern: $VAR = "$VAL"
+          - pattern: $VAR = '$VAL'
+      - metavariable-regex:
+          metavariable: $VAR
+          regex: "(?i).*(key|token).*"
+      - metavariable-regex:
+          metavariable: $VAL
+          # Matches somewhat high entropy-looking alphanumeric strings, length > 12
+          regex: "^[A-Za-z0-9_\\-]{12,}$"

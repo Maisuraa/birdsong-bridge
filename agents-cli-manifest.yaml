@@ -1,0 +1,5 @@
+manifest_version: "1"
+agent:
+  name: "app"
+  version: "0.1.0"
+  entrypoint: "app.agent:app"

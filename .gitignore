@@ -1,0 +1,6 @@
+.env
+*.db
+live_sessions_recordings/
+.adk/
+.pytest_cache/
+__pycache__/

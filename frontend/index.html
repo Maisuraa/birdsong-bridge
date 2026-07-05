@@ -1,0 +1,2616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BirdSong Bridge — Your Acoustic Field Journal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #ECEAE4;
+      --surface: #FFFFFF;
+      --chalk: #F5F3EF;
+      --border: #D8D4CC;
+      --blight: #EAE6DF;
+      --text1: #1A1C18;
+      --text2: #515449;
+      --text3: #96998F;
+      --forest: #2D5A3D;
+      --forest-m: #5A8A68;
+      --fern: #D2EAD8;
+      --fern-d: #AACFB6;
+      --gold: #A8841E;
+      --gold-l: #F8F0D8;
+      --gold-m: #DFC87A;
+      --wetland: #B8D8E8;
+      --highland: #C4DFC4;
+      --scrub: #E4D8B8;
+      --garden: #DCCCE8;
+      --s-lc: #059669;
+      --s-nt: #65A30D;
+      --s-vu: #D97706;
+      --s-en: #DC2626;
+      --font-d: 'Lora', Georgia, serif;
+      --font-b: 'DM Sans', system-ui, sans-serif;
+      --r: 12px;
+      --r-sm: 8px;
+      --sh: 0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --sh-md: 0 4px 18px rgba(0, 0, 0, 0.09);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-b);
+      background: var(--bg);
+      color: var(--text1);
+      font-size: 14px;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      height: 58px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--forest);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .brand-name {
+      font-family: var(--font-d);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text1);
+    }
+
+    .brand-name em {
+      color: var(--forest);
+      font-style: normal;
+    }
+
+    .tab-nav {
+      display: flex;
+      gap: 2px;
+      background: var(--blight);
+      padding: 3px;
+      border-radius: 30px;
+    }
+
+    .tn-btn {
+      padding: 7px 18px;
+      border-radius: 26px;
+      border: none;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: var(--font-b);
+      color: var(--text3);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+
+    .tn-btn.active {
+      background: var(--surface);
+      color: var(--forest);
+      box-shadow: var(--sh);
+      font-weight: 600;
+    }
+
+    .tn-btn:hover:not(.active) {
+      color: var(--text1);
+    }
+
+    .life-list-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      background: var(--fern);
+      border: 1px solid var(--fern-d);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--forest);
+      white-space: nowrap;
+    }
+
+    .ll-num {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    /* ── PANELS ── */
+    .panel {
+      display: none;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    /* ═══ TAB 1 — IDENTIFY ═══ */
+
+    .identify-hero {
+      text-align: center;
+      padding: 40px 20px 20px;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .ih-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--forest-m);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .ih-eyebrow::before,
+    .ih-eyebrow::after {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--fern-d);
+    }
+
+    .ih-title {
+      font-family: var(--font-d);
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 1.25;
+      color: var(--text1);
+      margin-bottom: 12px;
+    }
+
+    .ih-title em {
+      color: var(--forest);
+      font-style: italic;
+    }
+
+    .ih-sub {
+      font-size: 15px;
+      color: var(--text2);
+      line-height: 1.65;
+      margin-bottom: 32px;
+    }
+
+    /* RECORD STAGE */
+    .rec-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 190px;
+      margin-bottom: 24px;
+    }
+
+    .rec-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px solid var(--fern-d);
+      animation: ringout 2.6s ease-out infinite;
+      opacity: 0;
+    }
+
+    .rec-ring:nth-child(1) {
+      width: 128px;
+      height: 128px;
+      animation-delay: 0s;
+    }
+
+    .rec-ring:nth-child(2) {
+      width: 158px;
+      height: 158px;
+      animation-delay: 0.55s;
+    }
+
+    .rec-ring:nth-child(3) {
+      width: 188px;
+      height: 188px;
+      animation-delay: 1.1s;
+    }
+
+    @keyframes ringout {
+      0% {
+        opacity: 0.55;
+        transform: scale(0.88);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1.02);
+      }
+    }
+
+    .rec-btn {
+      position: relative;
+      z-index: 2;
+      width: 94px;
+      height: 94px;
+      border-radius: 50%;
+      background: var(--forest);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: transform 0.15s, background 0.2s;
+      box-shadow: 0 4px 22px rgba(45, 90, 61, 0.32);
+    }
+
+    .rec-btn:hover {
+      transform: scale(1.04);
+    }
+
+    .rec-btn.recording {
+      background: #B03030;
+    }
+
+    .rec-icon {
+      font-size: 30px;
+    }
+
+    .rec-lbl {
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.78);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .or-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 340px;
+      margin: 0 auto 14px;
+      color: var(--text3);
+      font-size: 12px;
+    }
+
+    .or-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .upload-zone {
+      max-width: 340px;
+      margin: 0 auto 28px;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--r);
+      padding: 13px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s;
+      color: var(--text3);
+      font-size: 13px;
+    }
+
+    .upload-zone:hover {
+      border-color: var(--forest-m);
+      color: var(--forest);
+    }
+
+    /* TAG ROW */
+    .tag-row {
+      max-width: 440px;
+      margin: 0 auto 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .fw {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .fw-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .field {
+      padding: 10px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      font-family: var(--font-b);
+      background: var(--surface);
+      color: var(--text1);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .field:focus {
+      border-color: var(--forest);
+    }
+
+    .demo-row {
+      text-align: center;
+      margin: 10px 0 18px;
+    }
+
+    .demo-btn {
+      padding: 10px 30px;
+      background: var(--forest);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-b);
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .demo-btn:hover {
+      opacity: 0.88;
+    }
+
+    /* IDENTIFICATION RESULT */
+    .id-result {
+      max-width: 520px;
+      margin: 0 auto 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: var(--sh-md);
+      display: none;
+    }
+
+    .id-result.visible {
+      display: block;
+      animation: slideUp 0.28s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .id-head {
+      background: linear-gradient(135deg, #1B3828 0%, #2D5A3D 100%);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .id-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .id-name {
+      font-family: var(--font-d);
+      font-size: 18px;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .id-sci {
+      font-size: 12px;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 7px;
+    }
+
+    .id-badges {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .id-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .id-conf-block {
+      margin-left: auto;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .id-conf-num {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .id-conf-lbl {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .id-body {
+      padding: 16px 20px;
+    }
+
+    .id-bar {
+      height: 4px;
+      background: var(--blight);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .id-bar-fill {
+      height: 100%;
+      background: var(--forest);
+      border-radius: 4px;
+    }
+
+    /* INFO GRID */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .info-cell {
+      background: var(--chalk);
+      border-radius: var(--r-sm);
+      padding: 10px 12px;
+    }
+
+    .ic-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text3);
+      margin-bottom: 3px;
+    }
+
+    .ic-val {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text1);
+    }
+
+    /* STATUS BADGE */
+    .status-lc {
+      color: var(--s-lc);
+      font-weight: 600;
+    }
+
+    .status-nt {
+      color: var(--s-nt);
+      font-weight: 600;
+    }
+
+    .status-vu {
+      color: var(--s-vu);
+      font-weight: 600;
+    }
+
+    .status-en {
+      color: var(--s-en);
+      font-weight: 600;
+    }
+
+    .id-fact {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.65;
+      border-left: 2px solid var(--fern-d);
+      padding-left: 12px;
+      margin-bottom: 12px;
+    }
+
+    .did-you-know {
+      background: var(--gold-l);
+      border: 1px solid var(--gold-m);
+      border-radius: var(--r-sm);
+      padding: 11px 13px;
+      margin-bottom: 14px;
+    }
+
+    .dyk-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .dyk-text {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.55;
+    }
+
+    /* CALL PLAYER */
+    .call-player {
+      background: var(--chalk);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 10px 13px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .call-play-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--forest);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 12px;
+      flex-shrink: 0;
+      transition: opacity 0.15s;
+    }
+
+    .call-play-btn:hover {
+      opacity: 0.85;
+    }
+
+    .call-info {
+      flex: 1;
+    }
+
+    .call-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text1);
+    }
+
+    .call-sub {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    .call-wf {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .cwb {
+      width: 2px;
+      border-radius: 2px;
+      background: var(--forest-m);
+      opacity: 0.6;
+      animation: wfpulse 1.2s ease-in-out infinite;
+    }
+
+    .cwb:nth-child(1) {
+      height: 5px;
+      animation-delay: 0s
+    }
+
+    .cwb:nth-child(2) {
+      height: 9px;
+      animation-delay: .08s
+    }
+
+    .cwb:nth-child(3) {
+      height: 14px;
+      animation-delay: .16s
+    }
+
+    .cwb:nth-child(4) {
+      height: 10px;
+      animation-delay: .24s
+    }
+
+    .cwb:nth-child(5) {
+      height: 16px;
+      animation-delay: .32s
+    }
+
+    .cwb:nth-child(6) {
+      height: 8px;
+      animation-delay: .4s
+    }
+
+    .cwb:nth-child(7) {
+      height: 12px;
+      animation-delay: .48s
+    }
+
+    .cwb:nth-child(8) {
+      height: 6px;
+      animation-delay: .56s
+    }
+
+    @keyframes wfpulse {
+
+      0%,
+      100% {
+        transform: scaleY(0.5)
+      }
+
+      50% {
+        transform: scaleY(1)
+      }
+    }
+
+    .xeno-credit {
+      font-size: 10px;
+      color: var(--text3);
+    }
+
+    .similar-row {
+      background: var(--chalk);
+      border-radius: var(--r-sm);
+      padding: 10px 13px;
+      margin-bottom: 14px;
+    }
+
+    .sim-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text3);
+      margin-bottom: 4px;
+    }
+
+    .sim-text {
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    .id-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 8px 18px;
+      background: var(--forest);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-b);
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.88;
+    }
+
+    .btn-ghost {
+      padding: 8px 18px;
+      background: transparent;
+      color: var(--text2);
+      border: 1.5px solid var(--border);
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: var(--font-b);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--forest);
+      color: var(--forest);
+    }
+
+    /* AGENT STRIP */
+    .agent-strip {
+      max-width: 700px;
+      margin: 28px auto 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 16px 20px;
+    }
+
+    .as-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text3);
+      margin-bottom: 12px;
+    }
+
+    .as-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .as-step {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--chalk);
+      border: 1px solid var(--blight);
+      border-radius: 20px;
+      padding: 5px 11px;
+      font-size: 11px;
+      color: var(--text2);
+    }
+
+    .as-step.lit {
+      background: var(--fern);
+      border-color: var(--fern-d);
+      color: var(--forest);
+      font-weight: 500;
+    }
+
+    .as-arrow {
+      color: var(--text3);
+      font-size: 11px;
+    }
+
+    .as-apis {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 10px;
+    }
+
+    /* ═══ TAB 2 — FIELD JOURNAL ═══ */
+
+    .journal-header {
+      margin-bottom: 20px;
+    }
+
+    .jh-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .jh-title {
+      font-family: var(--font-d);
+      font-size: 26px;
+      color: var(--text1);
+      margin-bottom: 3px;
+    }
+
+    .jh-sub {
+      font-size: 13px;
+      color: var(--text2);
+    }
+
+    /* STATS STRIP */
+    .stats-strip {
+      display: flex;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .stat-cell {
+      flex: 1;
+      padding: 14px 16px;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .stat-cell:last-child {
+      border-right: none;
+    }
+
+    .sc-num {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text1);
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+
+    .sc-lbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text3);
+    }
+
+    .sc-num.green {
+      color: var(--forest);
+    }
+
+    .sc-num.amber {
+      color: var(--s-vu);
+    }
+
+    .eco-filters {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .eco-btn {
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      font-size: 12px;
+      font-weight: 500;
+      font-family: var(--font-b);
+      color: var(--text2);
+      background: var(--surface);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .eco-btn.active,
+    .eco-btn:hover {
+      border-color: var(--forest);
+      color: var(--forest);
+      background: var(--fern);
+    }
+
+    .places-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    /* PLACE CARD */
+    .pcard {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: var(--sh);
+      transition: box-shadow 0.18s, transform 0.18s;
+      cursor: pointer;
+    }
+
+    .pcard:hover {
+      box-shadow: var(--sh-md);
+      transform: translateY(-2px);
+    }
+
+    .pcard.expanded {
+      transform: none;
+      box-shadow: var(--sh-md);
+    }
+
+    .pc-band {
+      height: 5px;
+      width: 100%;
+    }
+
+    .pc-body {
+      padding: 16px;
+    }
+
+    .pc-row1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .pc-name {
+      font-family: var(--font-d);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text1);
+      line-height: 1.3;
+    }
+
+    .pc-loc {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 2px;
+    }
+
+    .pc-eco-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-left: 8px;
+      margin-top: 2px;
+    }
+
+    .pc-birds-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .b-chip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text2);
+      background: var(--chalk);
+      border: 1px solid var(--blight);
+      border-radius: 20px;
+      padding: 3px 8px;
+    }
+
+    .b-chip-conf {
+      color: var(--text3);
+      font-size: 10px;
+    }
+
+    .b-chip.alert {
+      background: #FEF3C7;
+      border-color: #FCD34D;
+      color: #92400E;
+    }
+
+    .pc-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pc-meta {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    .pc-btn {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-b);
+      transition: all 0.15s;
+    }
+
+    .pc-btn-weave {
+      background: var(--fern);
+      color: var(--forest);
+    }
+
+    .pc-btn-weave:hover {
+      background: var(--fern-d);
+    }
+
+    .pc-btn-done {
+      background: var(--gold-l);
+      color: var(--gold);
+      border: 1px solid var(--gold-m);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.3
+      }
+    }
+
+    .play-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: blink 1.2s ease-in-out infinite;
+    }
+
+    /* EXPANDED DETAIL */
+    .pc-expand {
+      border-top: 1px solid var(--blight);
+      padding: 14px 16px;
+      background: var(--chalk);
+      display: none;
+    }
+
+    .pcard.expanded .pc-expand {
+      display: block;
+    }
+
+    .expand-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text3);
+      margin-bottom: 10px;
+    }
+
+    .bdr {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--blight);
+    }
+
+    .bdr:last-child {
+      border-bottom: none;
+    }
+
+    .bdr-ico {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--fern);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .bdr-name {
+      font-weight: 500;
+      font-size: 13px;
+      color: var(--text1);
+    }
+
+    .bdr-sci {
+      font-size: 11px;
+      font-style: italic;
+      color: var(--text3);
+    }
+
+    .bdr-fact {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 3px;
+      line-height: 1.45;
+    }
+
+    .bdr-row2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+      flex-wrap: wrap;
+    }
+
+    .conf-bar-m {
+      width: 52px;
+      height: 3px;
+      background: var(--blight);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .conf-fill-m {
+      height: 100%;
+      background: var(--forest-m);
+      border-radius: 3px;
+    }
+
+    .conf-txt-m {
+      font-size: 10px;
+      color: var(--forest-m);
+      font-weight: 600;
+    }
+
+    .status-pill {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: 20px;
+    }
+
+    .sp-lc {
+      background: #D1FAE5;
+      color: var(--s-lc);
+    }
+
+    .sp-nt {
+      background: #ECFCCB;
+      color: var(--s-nt);
+    }
+
+    .sp-vu {
+      background: #FEF3C7;
+      color: var(--s-vu);
+    }
+
+    .sp-en {
+      background: #FEE2E2;
+      color: var(--s-en);
+    }
+
+    .hear-btn {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--surface);
+      color: var(--text2);
+      cursor: pointer;
+      font-family: var(--font-b);
+      transition: all 0.12s;
+    }
+
+    .hear-btn:hover {
+      border-color: var(--forest);
+      color: var(--forest);
+    }
+
+    /* PLACE DETAIL FOOTER */
+    .pc-expand-footer {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--blight);
+      display: flex;
+      gap: 8px;
+    }
+
+    .ebird-link {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--forest-m);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ebird-link:hover {
+      color: var(--forest);
+    }
+
+    /* ═══ TAB 3 — PLACE MEMORY ═══ */
+
+    .memory-header {
+      margin-bottom: 24px;
+    }
+
+    .memory-title {
+      font-family: var(--font-d);
+      font-size: 26px;
+      color: var(--text1);
+      margin-bottom: 5px;
+    }
+
+    .memory-sub {
+      font-size: 13px;
+      color: var(--text2);
+      max-width: 600px;
+      line-height: 1.65;
+    }
+
+    .memory-notice {
+      background: var(--fern);
+      border: 1px solid var(--fern-d);
+      border-radius: var(--r-sm);
+      padding: 12px 14px;
+      margin-bottom: 22px;
+      font-size: 13px;
+      color: var(--forest);
+      line-height: 1.55;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .mn-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* MODE CARDS */
+    .mode-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .mode-card {
+      flex: 1;
+      padding: 16px;
+      border-radius: var(--r);
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      background: var(--surface);
+      transition: all 0.15s;
+    }
+
+    .mode-card.sel {
+      border-color: var(--forest);
+      background: var(--fern);
+    }
+
+    .mc-icon {
+      font-size: 22px;
+      margin-bottom: 7px;
+    }
+
+    .mc-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text1);
+      margin-bottom: 3px;
+    }
+
+    .mc-desc {
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.45;
+    }
+
+    .cs-row {
+      margin-bottom: 20px;
+    }
+
+    .cs-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text3);
+      margin-bottom: 10px;
+    }
+
+    .place-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .pp {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 13px;
+      border-radius: 30px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .pp.sel {
+      border-color: var(--forest);
+      background: var(--fern);
+      color: var(--forest);
+    }
+
+    .pp-ico {
+      font-size: 14px;
+    }
+
+    .style-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .sp-pill {
+      padding: 7px 16px;
+      border-radius: 30px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      font-family: var(--font-b);
+      transition: all 0.15s;
+    }
+
+    .sp-pill.sel {
+      border-color: var(--gold);
+      background: var(--gold-l);
+      color: var(--gold);
+    }
+
+    .weave-btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: var(--r);
+      background: var(--forest);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font-b);
+      cursor: pointer;
+      margin-top: 22px;
+      margin-bottom: 28px;
+      transition: opacity 0.15s;
+    }
+
+    .weave-btn:hover {
+      opacity: 0.88;
+    }
+
+    /* SOUNDSCAPE RESULT */
+    .soundscape {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: var(--sh-md);
+      animation: slideUp 0.35s ease;
+    }
+
+    .sc-head {
+      padding: 22px 26px;
+      background: linear-gradient(135deg, #142218 0%, #2D5A3D 55%, #3A7050 100%);
+    }
+
+    .sc-eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 5px;
+    }
+
+    .sc-title {
+      font-family: var(--font-d);
+      font-size: 24px;
+      font-style: italic;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .sc-birds {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* PLAYER */
+    .sc-player {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 24px;
+      background: var(--chalk);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .play-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--forest);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 14px;
+      flex-shrink: 0;
+      transition: opacity 0.15s;
+    }
+
+    .play-btn:hover {
+      opacity: 0.88;
+    }
+
+    .player-track {
+      flex: 1;
+    }
+
+    .pt-bar {
+      height: 4px;
+      background: var(--blight);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+
+    .pt-fill {
+      height: 100%;
+      background: var(--forest);
+      border-radius: 4px;
+      width: 31%;
+    }
+
+    .pt-time {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text3);
+    }
+
+    .wf-row {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .wfb {
+      width: 3px;
+      border-radius: 2px;
+      background: var(--forest-m);
+      opacity: 0.55;
+      animation: wfpulse 1.4s ease-in-out infinite;
+    }
+
+    .wfb:nth-child(1) {
+      height: 5px;
+      animation-delay: 0s
+    }
+
+    .wfb:nth-child(2) {
+      height: 10px;
+      animation-delay: .1s
+    }
+
+    .wfb:nth-child(3) {
+      height: 16px;
+      animation-delay: .2s
+    }
+
+    .wfb:nth-child(4) {
+      height: 11px;
+      animation-delay: .3s
+    }
+
+    .wfb:nth-child(5) {
+      height: 18px;
+      animation-delay: .4s
+    }
+
+    .wfb:nth-child(6) {
+      height: 8px;
+      animation-delay: .5s
+    }
+
+    .wfb:nth-child(7) {
+      height: 13px;
+      animation-delay: .6s
+    }
+
+    .wfb:nth-child(8) {
+      height: 9px;
+      animation-delay: .7s
+    }
+
+    .wfb:nth-child(9) {
+      height: 6px;
+      animation-delay: .8s
+    }
+
+    .wfb:nth-child(10) {
+      height: 4px;
+      animation-delay: .9s
+    }
+
+    /* BRIEF */
+    .sc-brief {
+      padding: 24px 26px;
+    }
+
+    .brief-sec {
+      margin-bottom: 20px;
+    }
+
+    .brief-sec:last-child {
+      margin-bottom: 0;
+    }
+
+    .brief-ts {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--forest-m);
+      margin-bottom: 5px;
+    }
+
+    .brief-text {
+      font-family: var(--font-d);
+      font-size: 13.5px;
+      line-height: 1.78;
+      color: var(--text1);
+    }
+
+    .sc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-cell {
+      flex: 1;
+      padding: 13px 20px;
+      border-right: 1px solid var(--border);
+      min-width: 120px;
+    }
+
+    .meta-cell:last-child {
+      border-right: none;
+    }
+
+    .mc-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text3);
+      margin-bottom: 3px;
+    }
+
+    .mc-val {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text1);
+    }
+
+    .sc-actions {
+      display: flex;
+      gap: 8px;
+      padding: 14px 24px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    /* FOOTER / POWERED BY */
+    .api-footer {
+      max-width: 1040px;
+      margin: 40px auto 0;
+      padding: 0 24px 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .af-label {
+      font-size: 11px;
+      color: var(--text3);
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .af-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .af-chip {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text2);
+    }
+
+    /* UTILS */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 18px 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .mt-8 {
+      margin-top: 8px
+    }
+
+    .mt-12 {
+      margin-top: 12px
+    }
+
+    .mt-16 {
+      margin-top: 16px
+    }
+
+    .mb-8 {
+      margin-bottom: 8px
+    }
+
+    .mb-12 {
+      margin-bottom: 12px
+    }
+
+    .mb-16 {
+      margin-bottom: 16px
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        padding: 0 14px;
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 14px;
+        gap: 8px;
+      }
+
+      .tab-nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .tn-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      .panel {
+        padding: 24px 14px 48px;
+      }
+
+      .ih-title {
+        font-size: 26px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-strip {
+        flex-wrap: wrap;
+      }
+
+      .stat-cell {
+        min-width: 50%;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .mode-row {
+        flex-direction: column;
+      }
+
+      .sc-meta {
+        flex-direction: column;
+      }
+
+      .meta-cell {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .tag-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ── -->
+  <nav class="nav">
+    <a class="brand" href="#" onclick="return false">
+      <div class="brand-mark">🐦</div>
+      <div class="brand-name">Bird<em>Song</em> Bridge</div>
+    </a>
+    <div class="tab-nav">
+      <button class="tn-btn active" onclick="switchTab('identify',this)">🔍 Identify</button>
+      <button class="tn-btn" onclick="switchTab('journal',this)">📔 Field Journal</button>
+      <button class="tn-btn" onclick="switchTab('memory',this)">🎵 Place Memory</button>
+    </div>
+    <div class="life-list-badge">
+      🦅 <span class="ll-num" id="lifeListNum">19</span> Life List
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  TAB 1 — IDENTIFY                          -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="panel-identify" class="panel active">
+
+    <div class="identify-hero">
+      <div class="ih-eyebrow">Acoustic bird identification</div>
+      <h1 class="ih-title">Hear a bird?<br><em>Find out who's singing.</em></h1>
+      <p class="ih-sub">Record any bird sound around you — one species or a whole forest. Our AI identifies it
+        instantly, tells you its story, and helps you build your personal field journal.</p>
+    </div>
+
+    <!-- RECORD -->
+    <div class="rec-stage">
+      <div class="rec-ring"></div>
+      <div class="rec-ring"></div>
+      <div class="rec-ring"></div>
+      <button class="rec-btn" id="recBtn" onclick="toggleRecord()">
+        <div class="rec-icon" id="recIcon">🎙</div>
+        <div class="rec-lbl" id="recLbl">Tap to Listen</div>
+      </button>
+    </div>
+
+    <div class="or-row">
+      <div class="or-line"></div><span>or</span>
+      <div class="or-line"></div>
+    </div>
+
+    <div class="upload-zone" onclick="triggerFileUpload()" id="uploadZone">
+      📁 &nbsp; Upload a bird recording &nbsp;·&nbsp; .mp3 &nbsp;.wav &nbsp;.m4a
+      <div style="font-size:11px;margin-top:3px;color:var(--text3)">Best results with 5–30 second clips</div>
+    </div>
+
+    <div class="tag-row" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="fw">
+        <label class="fw-label">Where are you?</label>
+        <input class="field" type="text" placeholder="e.g. Wadhwana Sanctuary" id="inp-place">
+      </div>
+      <div class="fw">
+        <label class="fw-label">City / Region</label>
+        <input class="field" type="text" placeholder="e.g. Vadodara, Gujarat" id="inp-city">
+      </div>
+      <div class="fw">
+        <label class="fw-label">Habitat</label>
+        <select class="field" id="inp-ecosystem">
+          <option value="wetland">💧 Wetland</option>
+          <option value="forest">🌲 Forest</option>
+          <option value="scrub">🌾 Scrubland</option>
+          <option value="garden">🌸 Garden</option>
+          <option value="other" selected>🌍 Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="fw" style="max-width:440px;margin:0 auto 14px">
+      <label class="fw-label">Field notes <span
+          style="text-transform:none;font-weight:400;color:var(--text3)">(optional)</span></label>
+      <textarea class="field" id="inp-notes" rows="2" style="resize:vertical;font-family:var(--font-b)"
+        placeholder="Anything you noticed — behavior, what it was doing, the light, the moment..."></textarea>
+    </div>
+
+    <div class="demo-row">
+      <button class="demo-btn" onclick="showDemo()">▶ &nbsp;Try identification demo</button>
+    </div>
+
+    <!-- IDENTIFICATION RESULT -->
+    <div class="id-result" id="idResult">
+      <div class="id-head">
+        <div class="id-avatar">🦩</div>
+        <div>
+          <div class="id-name">Greater Flamingo</div>
+          <div class="id-sci">Phoenicopterus roseus</div>
+          <div class="id-badges">
+            <span class="id-badge">🌍 Wetlands</span>
+            <span class="id-badge">❄️ Winter visitor</span>
+            <span class="id-badge">IUCN: LC</span>
+          </div>
+        </div>
+        <div class="id-conf-block">
+          <div class="id-conf-num">96%</div>
+          <div class="id-conf-lbl">Confidence</div>
+        </div>
+      </div>
+      <div class="id-body">
+        <div class="id-bar">
+          <div class="id-bar-fill" style="width:96%"></div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-cell">
+            <div class="ic-label">Conservation Status</div>
+            <div class="ic-val status-lc">● Least Concern (LC)</div>
+          </div>
+          <div class="info-cell">
+            <div class="ic-label">Season at this site</div>
+            <div class="ic-val">❄️ Winter visitor · Nov–Mar</div>
+          </div>
+          <div class="info-cell">
+            <div class="ic-label">Preferred Habitat</div>
+            <div class="ic-val">Saline lakes · Mudflats · Wetlands</div>
+          </div>
+          <div class="info-cell">
+            <div class="ic-label">Watch for similar</div>
+            <div class="ic-val">Lesser Flamingo (smaller, darker pink)</div>
+          </div>
+        </div>
+
+        <div class="id-fact">
+          Arrives in thousands each winter. Their collective low honking creates one of India's most distinctive natural
+          soundscapes — a sound you'll never forget once you've heard it at Wadhwana at dawn.
+        </div>
+
+        <div class="did-you-know">
+          <div class="dyk-label">🌟 Did you know?</div>
+          <div class="dyk-text">Flamingos are actually born white. They turn pink from pigments in the algae and shrimp
+            they eat — a flamingo in captivity fed a colourless diet goes white within two years.</div>
+        </div>
+
+        <!-- XENO-CANTO CALL PLAYER -->
+        <div class="call-player">
+          <button class="call-play-btn" onclick="this.textContent=this.textContent==='▶'?'⏸':'▶'">▶</button>
+          <div class="call-info">
+            <div class="call-title">Greater Flamingo — recorded call</div>
+            <div class="call-sub xeno-credit">via xeno-canto · Recording XC143921 · Gujarat, India</div>
+          </div>
+          <div class="call-wf">
+            <div class="cwb"></div>
+            <div class="cwb"></div>
+            <div class="cwb"></div>
+            <div class="cwb"></div>
+            <div class="cwb"></div>
+            <div class="cwb"></div>
+            <div class="cwb"></div>
+            <div class="cwb"></div>
+          </div>
+        </div>
+
+        <div class="id-actions">
+          <button class="btn-primary" onclick="switchTab('journal', document.querySelectorAll('.tn-btn')[1])">📔 Save to
+            Field Journal</button>
+          <button class="btn-ghost" id="ebirdLinkBtn" onclick="alert('Identify a bird first')">🦅 View on eBird</button>
+          <button class="btn-ghost" onclick="document.getElementById('idResult').classList.remove('visible')">✕
+            Dismiss</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AGENT PIPELINE -->
+    <div class="agent-strip">
+      <div class="as-label">How the identification works</div>
+      <div class="as-row">
+        <div class="as-step lit">🎙 You record</div>
+        <div class="as-arrow">→</div>
+        <div class="as-step lit">🔍 BirdNET identifies</div>
+        <div class="as-arrow">→</div>
+        <div class="as-step">🌿 iNaturalist enriches</div>
+        <div class="as-arrow">→</div>
+        <div class="as-step">🦅 eBird adds sightings</div>
+        <div class="as-arrow">→</div>
+        <div class="as-step">🔊 xeno-canto plays the call</div>
+      </div>
+      <div class="as-apis">All data is from free, open APIs. Cornell BirdNET · eBird API · iNaturalist · xeno-canto
+      </div>
+    </div>
+
+  </div><!-- /panel-identify -->
+
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  TAB 2 — FIELD JOURNAL                     -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="panel-journal" class="panel">
+
+    <div class="journal-header">
+      <div class="jh-top">
+        <div>
+          <div class="jh-title">My Field Journal</div>
+          <div class="jh-sub">Every place you've visited. Every bird you've heard. Your personal record of the wild.
+          </div>
+        </div>
+        <button class="btn-primary" style="flex-shrink:0"
+          onclick="switchTab('identify',document.querySelectorAll('.tn-btn')[0])">+ Add new sighting</button>
+      </div>
+
+      <!-- STATS STRIP -->
+      <div class="stats-strip">
+        <div class="stat-cell">
+          <div class="sc-num green">19</div>
+          <div class="sc-lbl">Species spotted</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sc-num">7</div>
+          <div class="sc-lbl">Places visited</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sc-num">4</div>
+          <div class="sc-lbl">Habitat types</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sc-num amber">1</div>
+          <div class="sc-lbl">Near-threatened species</div>
+        </div>
+        <div class="stat-cell">
+          <div class="sc-num">1</div>
+          <div class="sc-lbl">Place soundscape made</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eco-filters" id="ecoFilters">
+      <button class="eco-btn active" onclick="filterEco('all',this)">All places (7)</button>
+      <button class="eco-btn" onclick="filterEco('wetland',this)">💧 Wetlands (3)</button>
+      <button class="eco-btn" onclick="filterEco('forest',this)">🌲 Forests (2)</button>
+      <button class="eco-btn" onclick="filterEco('scrub',this)">🌾 Scrubland (1)</button>
+      <button class="eco-btn" onclick="filterEco('garden',this)">🌸 Gardens (2)</button>
+    </div>
+
+    <div class="places-grid" id="placesGrid"></div>
+
+    <div
+      style="background:var(--fern);border:1px solid var(--fern-d);border-radius:var(--r-sm);padding:11px 14px;font-size:12px;color:var(--forest);">
+      💡 Click any place to read your species records in detail. A yellow chip means a species of conservation concern
+      was recorded there.
+    </div>
+
+  </div><!-- /panel-journal -->
+
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  TAB 3 — PLACE MEMORY                      -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div id="panel-memory" class="panel">
+
+    <div class="memory-header">
+      <div class="memory-title">Place Memory</div>
+      <div class="memory-sub">A creative celebration of your field journal. Pick a place you've visited — or weave
+        together birds from multiple locations — and get a musical soundscape brief that captures what you heard and
+        where you were.</div>
+    </div>
+
+    <div class="memory-notice">
+      <div class="mn-icon">🌿</div>
+      <div>This is not a music app. It's a memory tool. The soundscape brief describes <strong>what a musician could
+          compose</strong> based on the birds and habitats you actually recorded — a poetic translation of your field
+        notes into sound.</div>
+    </div>
+
+    <!-- MODE -->
+    <div class="mode-row">
+      <div class="mode-card sel" id="mode-single" onclick="setMode('single')">
+        <div class="mc-icon">📍</div>
+        <div class="mc-title">Single Place Soundscape</div>
+        <div class="mc-desc">A musical portrait of one location's birds, habitat, and atmosphere.</div>
+      </div>
+      <div class="mode-card" id="mode-journey" onclick="setMode('journey')">
+        <div class="mc-icon">🗺</div>
+        <div class="mc-title">Journey Soundscape</div>
+        <div class="mc-desc">Blend birds from multiple places into one musical journey — a memory of everywhere you've
+          been.</div>
+      </div>
+    </div>
+
+    <!-- PLACE SELECT -->
+    <div class="cs-row">
+      <div class="cs-label" id="place-select-label">Choose a place from your Field Journal</div>
+      <div class="place-pills" id="composePlacePills"></div>
+    </div>
+
+    <!-- STYLE -->
+    <div class="cs-row">
+      <div class="cs-label">Musical character</div>
+      <div class="style-row">
+        <button class="sp-pill sel" onclick="setSp(this)">🌅 Dawn Raga</button>
+        <button class="sp-pill" onclick="setSp(this)">🌿 Forest Ambient</button>
+        <button class="sp-pill" onclick="setSp(this)">🎻 Folk / Classical</button>
+        <button class="sp-pill" onclick="setSp(this)">🥁 Rhythmic</button>
+        <button class="sp-pill" onclick="setSp(this)">🌙 Evening Nocturne</button>
+      </div>
+    </div>
+
+    <!-- ELEMENTS -->
+    <div class="cs-row">
+      <div class="cs-label">Elements to include</div>
+      <div class="style-row">
+        <button class="sp-pill sel" onclick="this.classList.toggle('sel')">🎙 Original field recording layer</button>
+        <button class="sp-pill sel" onclick="this.classList.toggle('sel')">🪘 Percussion / rhythm</button>
+        <button class="sp-pill" onclick="this.classList.toggle('sel')">🎤 Vocal adaptation of bird call</button>
+        <button class="sp-pill" onclick="this.classList.toggle('sel')">📻 Drone / tanpura base</button>
+      </div>
+    </div>
+
+    <button class="weave-btn" onclick="showSoundscape()">Weave Soundscape →</button>
+
+    <!-- SOUNDSCAPE OUTPUT -->
+    <div class="soundscape hidden" id="soundscapeResult">
+      <div class="sc-head">
+        <div class="sc-eyebrow">BirdSong Bridge · Place Memory</div>
+        <div class="sc-title" id="sc-title">"Wadhwana at Dawn"</div>
+        <div class="sc-birds" id="sc-birds">Greater Flamingo · Common Kingfisher · Black-winged Stilt · Purple Swamphen
+        </div>
+      </div>
+
+      <div class="sc-player">
+        <button class="play-btn" onclick="this.textContent=this.textContent==='▶'?'⏸':'▶'">▶</button>
+        <div class="player-track">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+            <div class="pt-bar" style="flex:1">
+              <div class="pt-fill"></div>
+            </div>
+            <div class="wf-row">
+              <div class="wfb"></div>
+              <div class="wfb"></div>
+              <div class="wfb"></div>
+              <div class="wfb"></div>
+              <div class="wfb"></div>
+              <div class="wfb"></div>
+              <div class="wfb"></div>
+              <div class="wfb"></div>
+              <div class="wfb"></div>
+              <div class="wfb"></div>
+            </div>
+          </div>
+          <div class="pt-time"><span>1:12</span><span id="sc-duration">3:45</span></div>
+        </div>
+      </div>
+
+      <div class="sc-brief" id="scBriefBody"></div>
+      <div class="sc-meta" id="scMeta"></div>
+      <div class="sc-actions">
+        <button class="btn-primary" style="font-size:12px">💾 Save soundscape brief</button>
+        <button class="btn-ghost" style="font-size:12px">📤 Share</button>
+        <button class="btn-ghost" style="font-size:12px">📄 Export as PDF</button>
+      </div>
+    </div>
+
+  </div><!-- /panel-memory -->
+
+
+  <!-- POWERED BY FOOTER -->
+  <div class="api-footer">
+    <span class="af-label">Powered by</span>
+    <div class="af-chips">
+      <span class="af-chip">🔬 Cornell BirdNET</span>
+      <span class="af-chip">🔊 xeno-canto</span>
+      <span class="af-chip">🦅 eBird API</span>
+      <span class="af-chip">🌿 iNaturalist</span>
+      <span class="af-chip">✨ Gemini AI</span>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  DATA & LOGIC                              -->
+  <!-- ═══════════════════════════════════════════ -->
+  <script>
+    /* ═══════════════════════════════════════════════════════════
+       BirdSong Bridge — live data layer.
+       Replaces the original hardcoded PLACES/SOUNDSCAPES demo data
+       with real calls to the FastAPI + ADK backend. Every onclick
+       handler already wired up in the HTML above (switchTab,
+       filterEco, toggleCard, setMode, togglePlace, setSp, goMemory,
+       toggleRecord, showDemo, showSoundscape) keeps the same name
+       and signature on purpose, so this file is a drop-in swap.
+       ═══════════════════════════════════════════════════════════ */
+
+    // Point this at your deployed backend URL once you deploy (Phase 6 of
+    // WORKFLOW_GUIDE.md); localhost:8080 is correct for local development.
+    const API_BASE = 'https://birdsong-backend-exuq6sp6ca-uc.a.run.app';
+
+    let journalPlaces = [];      // populated by loadJournal()
+    let currentMode = 'single';
+    let selectedPlaces = new Set();
+    let expandedCard = null;
+    let pendingRequestContext = null;  // holds place/notes context between
+    // /api/identify and /api/identify/confirm
+    let userLat = null, userLon = null;
+
+    // Best-effort, silent geolocation — meaningfully improves both BirdNET's
+    // own location-aware filtering and the verify_agent's regional plausibility
+    // check. Never blocks the UI; if denied, lat/lon just stay null and the
+    // backend simply skips the location-aware checks.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => { userLat = pos.coords.latitude; userLon = pos.coords.longitude; },
+        () => { /* permission denied or unavailable — fine, proceed without it */ },
+        { timeout: 4000 }
+      );
+    }
+
+    /* ── TAB SWITCH (unchanged behavior, now also lazy-loads the journal) ── */
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tn-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + tab).classList.add('active');
+      btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (tab === 'journal' || tab === 'memory') loadJournal();
+    }
+
+    /* ── RECORD (real microphone capture via MediaRecorder) ── */
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let recording = false;
+
+    async function toggleRecord() {
+      const btn = document.getElementById('recBtn');
+      const ico = document.getElementById('recIcon');
+      const lbl = document.getElementById('recLbl');
+
+      if (!recording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          recordedChunks = [];
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
+          mediaRecorder.onstop = () => {
+            stream.getTracks().forEach(t => t.stop());
+            const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+            submitAudioForIdentification(blob, 'field-recording.webm');
+          };
+          mediaRecorder.start();
+          recording = true;
+          btn.classList.add('recording');
+          ico.textContent = '⏹';
+          lbl.textContent = 'Listening…';
+        } catch (err) {
+          alert('Microphone access is needed to record a bird call. You can also use "Upload a bird recording" instead.');
+        }
+      } else {
+        mediaRecorder.stop();
+        recording = false;
+        btn.classList.remove('recording');
+        ico.textContent = '🎙';
+        lbl.textContent = 'Tap to Listen';
+      }
+    }
+
+    /* ── UPLOAD ── */
+    function triggerFileUpload() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'audio/*,.wav,.mp3,.m4a,.flac,.ogg';
+      input.style.display = 'none';
+
+      // Attach it to the DOM so the browser doesn't garbage collect it!
+      document.body.appendChild(input);
+
+      input.onchange = () => {
+        if (input.files && input.files[0]) {
+          submitAudioForIdentification(input.files[0], input.files[0].name);
+        }
+        // Clean it up after the file is handed off
+        document.body.removeChild(input);
+      };
+      input.click();
+    }
+
+    /* ── DEMO (bundled sample clip — see frontend/assets/) ── */
+    function showDemo() {
+      fetch('assets/demo-clip-info.json')
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(info => fetch(info.audio_url))
+        .then(r => r.blob())
+        .then(blob => submitAudioForIdentification(blob, 'demo-clip.wav', /*isDemo=*/true))
+        .catch(() => alert('No bundled demo clip found. Add one at frontend/assets/ — see README "Demo clip" section — or use Record/Upload with a real recording instead.'));
+    }
+
+    /* ── SUBMIT TO BACKEND ── */
+    async function submitAudioForIdentification(audioBlob, filename, isDemo = false) {
+      const placeName = document.getElementById('inp-place').value || 'Unnamed location';
+      const cityRegion = document.getElementById('inp-city').value || '';
+      const ecosystem = document.getElementById('inp-ecosystem').value || 'other';
+      const notes = document.getElementById('inp-notes').value || '';
+
+      pendingRequestContext = { placeName, cityRegion, ecosystem, notes };
+
+      showLoadingState();
+
+      const form = new FormData();
+      form.append('audio', audioBlob, filename);
+      form.append('place_name', placeName);
+      form.append('city_region', cityRegion);
+      form.append('ecosystem', ecosystem);
+      form.append('user_notes', notes);
+      if (userLat !== null) form.append('lat', userLat);
+      if (userLon !== null) form.append('lon', userLon);
+
+      try {
+        const resp = await fetch(`${API_BASE}/api/identify`, { method: 'POST', body: form });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.detail || 'Identification failed');
+        renderIdentifyResult(data);
+      } catch (err) {
+        renderErrorState(err.message || String(err));
+      }
+    }
+
+    async function confirmCandidate(commonName, scientificName) {
+      if (!pendingRequestContext) return;
+      showLoadingState();
+      const form = new FormData();
+      form.append('common_name', commonName);
+      form.append('scientific_name', scientificName);
+      form.append('place_name', pendingRequestContext.placeName);
+      form.append('city_region', pendingRequestContext.cityRegion);
+      form.append('ecosystem', pendingRequestContext.ecosystem);
+      form.append('user_notes', pendingRequestContext.notes);
+      if (userLat !== null) form.append('lat', userLat);
+      if (userLon !== null) form.append('lon', userLon);
+
+      try {
+        const resp = await fetch(`${API_BASE}/api/identify/confirm`, { method: 'POST', body: form });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.detail || 'Confirmation failed');
+        renderIdentifyResult(data);
+      } catch (err) {
+        renderErrorState(err.message || String(err));
+      }
+    }
+
+    /* ── RESULT RENDERING ── */
+    function showLoadingState() {
+      const r = document.getElementById('idResult');
+      r.innerHTML = `<div class="id-body" style="text-align:center;padding:40px 20px;color:var(--text2)">
+    <div style="font-size:28px;margin-bottom:10px">🔍</div>
+    Identifying — BirdNET is analyzing the recording, then an agent is cross-checking it against what's been seen nearby…
+  </div>`;
+      r.classList.add('visible');
+      setTimeout(() => r.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    }
+
+    function renderErrorState(message) {
+      const r = document.getElementById('idResult');
+      r.innerHTML = `<div class="id-body" style="text-align:center;padding:30px 20px;color:var(--text2)">
+    <div style="font-size:24px;margin-bottom:8px">⚠️</div>
+    Something went wrong: ${escapeHtml(message)}
+    <div style="margin-top:10px"><button class="btn-ghost" onclick="document.getElementById('idResult').classList.remove('visible')">✕ Dismiss</button></div>
+  </div>`;
+    }
+
+    function renderIdentifyResult(data) {
+      const r = document.getElementById('idResult');
+
+      if (data.status === 'needs_confirmation') {
+        const candidates = data.candidates || [];
+        if (candidates.length === 0) {
+          r.innerHTML = `<div class="id-body" style="text-align:center;padding:30px 20px;color:var(--text2)">
+        No confident match found in that recording. Try a clearer 5–30 second clip with less background noise.
+        <div style="margin-top:10px"><button class="btn-ghost" onclick="document.getElementById('idResult').classList.remove('visible')">✕ Dismiss</button></div>
+      </div>`;
+          return;
+        }
+        r.innerHTML = `
+      <div class="id-head" style="background:linear-gradient(135deg,#3A3424 0%,#A8841E 100%)">
+        <div class="id-avatar">🤔</div>
+        <div>
+          <div class="id-name">A few possibilities</div>
+          <div class="id-sci">Pick the one that matches what you heard</div>
+        </div>
+      </div>
+      <div class="id-body">
+        ${candidates.map(c => `
+          <button class="btn-ghost" style="display:flex;justify-content:space-between;width:100%;margin-bottom:8px;text-align:left"
+                  onclick="confirmCandidate('${escapeHtml(c.common_name)}','${escapeHtml(c.scientific_name)}')">
+            <span><strong>${escapeHtml(c.common_name)}</strong> <em style="color:var(--text3)">${escapeHtml(c.scientific_name)}</em></span>
+            <span style="color:var(--text3)">${Math.round(c.confidence * 100)}%</span>
+          </button>
+        `).join('')}
+        ${data.verifier_reasoning ? `<div class="id-fact" style="margin-top:10px">${escapeHtml(data.verifier_reasoning)}</div>` : ''}
+      </div>`;
+        return;
+      }
+
+      // status === "saved" — full result card
+      const ebirdBtn = document.getElementById('ebirdLinkBtn');
+      if (ebirdBtn) {
+        const q = encodeURIComponent(data.common_name || '');
+        ebirdBtn.onclick = () => window.open(`https://ebird.org/species/search?q=${q}`, '_blank');
+      }
+
+      r.innerHTML = `
+    <div class="id-head">
+      <div class="id-avatar">🐦</div>
+      <div>
+        <div class="id-name">${escapeHtml(data.common_name)}</div>
+        <div class="id-sci">${escapeHtml(data.scientific_name)}</div>
+      </div>
+    </div>
+    <div class="id-body">
+      ${data.short_fact ? `<div class="id-fact">${escapeHtml(data.short_fact)}</div>` : ''}
+      ${data.did_you_know ? `<div class="did-you-know"><div class="dyk-label">🌟 Did you know?</div><div class="dyk-text">${escapeHtml(data.did_you_know)}</div></div>` : ''}
+      <div class="similar-row">
+        <div class="sim-label">Field journal entry</div>
+        <div class="sim-text">${escapeHtml(data.entry_text || '')}</div>
+      </div>
+      <div class="id-actions">
+        <button class="btn-primary" onclick="switchTab('journal', document.querySelectorAll('.tn-btn')[1])">📔 View in Field Journal</button>
+        <button class="btn-ghost" id="ebirdLinkBtn" onclick="window.open('https://ebird.org/species/search?q=${encodeURIComponent(data.common_name || '')}','_blank')">🦅 View on eBird</button>
+        <button class="btn-ghost" onclick="document.getElementById('idResult').classList.remove('visible')">✕ Dismiss</button>
+      </div>
+    </div>`;
+    }
+
+    function escapeHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = s == null ? '' : String(s);
+      return d.innerHTML;
+    }
+
+    /* ── FIELD JOURNAL (real data from /api/journal/places + /stats) ── */
+    async function loadJournal() {
+      try {
+        const [places, stats] = await Promise.all([
+          fetch(`${API_BASE}/api/journal/places`).then(r => r.json()),
+          fetch(`${API_BASE}/api/journal/stats`).then(r => r.json()),
+        ]);
+        journalPlaces = places;
+        renderStats(stats);
+        renderPlaces('all');
+        renderComposePills();
+      } catch (err) {
+        document.getElementById('placesGrid').innerHTML =
+          `<div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:30px">
+        Couldn't reach the journal backend (${escapeHtml(err.message || err)}). Is backend/main.py running?
+      </div>`;
+      }
+    }
+
+    function renderStats(stats) {
+      const cells = document.querySelectorAll('.stats-strip .sc-num');
+      if (cells.length >= 4) {
+        cells[0].textContent = stats.species_spotted;
+        cells[1].textContent = stats.places_visited;
+        cells[2].textContent = stats.habitat_types;
+        cells[3].textContent = stats.conservation_concern_species;
+      }
+      document.getElementById('lifeListNum').textContent = stats.species_spotted;
+    }
+
+    const ECO_BAND = { wetland: 'var(--wetland)', forest: 'var(--highland)', scrub: 'var(--scrub)', garden: 'var(--garden)', other: 'var(--blight)' };
+    const ECO_ICON = { wetland: '🦢', forest: '🌲', scrub: '🌾', garden: '🌺', other: '🌍' };
+
+    function renderPlaces(filter) {
+      const grid = document.getElementById('placesGrid');
+      const list = filter === 'all' ? journalPlaces : journalPlaces.filter(p => p.ecosystem === filter);
+
+      if (list.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:30px">
+      No sightings logged yet — head to the Identify tab and record or upload a bird call.
+    </div>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(p => {
+        const chips = p.species.map(s => {
+          const alert = s.conservation_status && s.conservation_status !== 'lc' ? ' alert' : '';
+          return `<span class="b-chip${alert}">🐦 ${escapeHtml(s.common_name)} <span class="b-chip-conf">${Math.round((s.confidence || 0) * 100)}%</span></span>`;
+        }).join('');
+
+        return `<div class="pcard" id="pcard-${p.place_id}" onclick="toggleCard('${p.place_id}')">
+      <div class="pc-band" style="background:${ECO_BAND[p.ecosystem] || ECO_BAND.other}"></div>
+      <div class="pc-body">
+        <div class="pc-row1">
+          <div><div class="pc-name">${escapeHtml(p.name)}</div><div class="pc-loc">📍 ${escapeHtml(p.city_region || '')}</div></div>
+          <div class="pc-eco-icon" style="background:var(--chalk)">${ECO_ICON[p.ecosystem] || ECO_ICON.other}</div>
+        </div>
+        <div class="pc-birds-row">${chips}</div>
+        <div class="pc-footer">
+          <div class="pc-meta">${p.species_count} species logged${p.has_conservation_concern ? ' · ⚠ includes conservation species' : ''}</div>
+          <button class="pc-btn pc-btn-weave" onclick="goMemory('${p.place_id}');event.stopPropagation()">Weave Soundscape →</button>
+        </div>
+      </div>
+      <div class="pc-expand" id="pc-expand-${p.place_id}">
+        <div class="expand-title">Species records — ${escapeHtml(p.name)}</div>
+        ${p.sightings.map(s => `
+          <div class="bdr">
+            <div class="bdr-ico">🐦</div>
+            <div>
+              <div class="bdr-name">${escapeHtml(s.common_name)}</div>
+              <div class="bdr-sci">${escapeHtml(s.scientific_name)}</div>
+              <div class="bdr-fact">${escapeHtml(s.journal_entry_text || '')}</div>
+              <div class="bdr-row2">
+                <span class="conf-txt-m">${Math.round((s.confidence || 0) * 100)}% match</span>
+                <span class="status-pill" style="background:var(--chalk);color:var(--text2)">${s.recorded_at ? s.recorded_at.split('T')[0] : ''}</span>
+              </div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+      }).join('');
+    }
+
+    function toggleCard(id) {
+      const c = document.getElementById('pcard-' + id);
+      if (expandedCard && expandedCard !== c) expandedCard.classList.remove('expanded');
+      c.classList.toggle('expanded');
+      expandedCard = c.classList.contains('expanded') ? c : null;
+    }
+
+    function filterEco(eco, btn) {
+      document.querySelectorAll('.eco-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPlaces(eco);
+    }
+
+    function goMemory(id) {
+      selectedPlaces.clear();
+      selectedPlaces.add(id);
+      switchTab('memory', document.querySelectorAll('.tn-btn')[2]);
+      renderComposePills();
+    }
+
+    /* ── PLACE MEMORY / SOUNDSCAPE ── */
+    function renderComposePills() {
+      document.getElementById('composePlacePills').innerHTML = journalPlaces.map(p =>
+        `<div class="pp${selectedPlaces.has(p.place_id) ? ' sel' : ''}" onclick="togglePlace('${p.place_id}',this)">
+      <span class="pp-ico">${ECO_ICON[p.ecosystem] || '📍'}</span>${escapeHtml(p.name.split(' ').slice(0, 3).join(' '))}
+      <span style="font-size:10px;color:var(--text3)">(${p.species_count})</span>
+    </div>`).join('');
+    }
+
+    function togglePlace(id, el) {
+      if (currentMode === 'single') {
+        selectedPlaces.clear();
+        document.querySelectorAll('.pp').forEach(p => p.classList.remove('sel'));
+        selectedPlaces.add(id);
+        el.classList.add('sel');
+      } else {
+        if (selectedPlaces.has(id)) {
+          if (selectedPlaces.size > 1) { selectedPlaces.delete(id); el.classList.remove('sel'); }
+        } else {
+          selectedPlaces.add(id);
+          el.classList.add('sel');
+        }
+      }
+    }
+
+    function setMode(m) {
+      currentMode = m;
+      document.getElementById('mode-single').classList.toggle('sel', m === 'single');
+      document.getElementById('mode-journey').classList.toggle('sel', m === 'journey');
+      document.getElementById('place-select-label').textContent =
+        m === 'single' ? 'Choose a place from your Field Journal' : 'Select multiple places to weave together';
+      if (m === 'single') {
+        const first = selectedPlaces.values().next().value;
+        selectedPlaces.clear();
+        if (first) selectedPlaces.add(first);
+        else if (journalPlaces[0]) selectedPlaces.add(journalPlaces[0].place_id);
+      }
+      renderComposePills();
+    }
+
+    function setSp(el) {
+      document.querySelectorAll('.sp-pill').forEach(s => s.classList.remove('sel'));
+      el.classList.add('sel');
+    }
+
+    async function showSoundscape() {
+      if (selectedPlaces.size === 0) { alert('Pick at least one place first.'); return; }
+      const musicalCharacter = document.querySelector('.style-row .sp-pill.sel')?.textContent?.trim() || 'Forest Ambient';
+      const elements = Array.from(document.querySelectorAll('.cs-row:nth-of-type(3) .sp-pill.sel'))
+        .map(el => el.textContent.trim());
+
+      const form = new FormData();
+      Array.from(selectedPlaces).forEach(id => form.append('place_ids', id));
+      form.append('musical_character', musicalCharacter);
+      elements.forEach(e => form.append('elements', e));
+
+      const weaveBtn = document.querySelector('.weave-btn');
+      const originalLabel = weaveBtn.textContent;
+      weaveBtn.textContent = 'Composing…';
+      weaveBtn.disabled = true;
+
+      try {
+        const resp = await fetch(`${API_BASE}/api/soundscape`, { method: 'POST', body: form });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.detail || 'Soundscape request failed');
+        renderSoundscapeResult(data);
+      } catch (err) {
+        alert('Could not compose a soundscape: ' + (err.message || err));
+      } finally {
+        weaveBtn.textContent = originalLabel;
+        weaveBtn.disabled = false;
+      }
+    }
+
+    function renderSoundscapeResult(sc) {
+      document.getElementById('sc-title').textContent = sc.title || '';
+      document.getElementById('sc-birds').textContent = Array.from(selectedPlaces)
+        .map(id => journalPlaces.find(p => p.place_id === id)?.name).filter(Boolean).join(' · ');
+      document.getElementById('sc-duration').textContent = '';
+      document.getElementById('scBriefBody').innerHTML = (sc.sections || []).map(s =>
+        `<div class="brief-sec"><div class="brief-ts">${escapeHtml(s.timestamp_label)}</div><div class="brief-text">${escapeHtml(s.text)}</div></div>`).join('');
+      document.getElementById('scMeta').innerHTML = [
+        { l: 'Key / Mode', v: sc.key_or_mode },
+        { l: 'Instrumentation', v: sc.instrumentation },
+        { l: 'Mood', v: sc.mood },
+      ].map(m => `<div class="meta-cell"><div class="mc-label">${m.l}</div><div class="mc-val">${escapeHtml(m.v || '')}</div></div>`).join('');
+      const r = document.getElementById('soundscapeResult');
+      r.classList.remove('hidden');
+      setTimeout(() => r.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    }
+
+    /* ── INIT ── */
+    loadJournal();
+
+  </script>
+</body>
+
+</html>
